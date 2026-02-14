@@ -1,42 +1,229 @@
-#root {
-  max-width: 1280px;
+:root {
+  font-family: Inter, system-ui, -apple-system, sans-serif;
+  color: #f3f4f6;
+  background: #09090b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #09090b;
+}
+
+.top-nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  gap: 0.6rem;
+  padding: 0.75rem;
+  background: rgba(12, 12, 14, 0.95);
+  border-bottom: 1px solid #27272a;
+}
+
+.top-nav button,
+.category-tabs button,
+.dish-item,
+.admin-actions button,
+aside button,
+.login-card button,
+.admin-header button {
+  min-height: 44px;
+  border-radius: 0.65rem;
+  border: 1px solid #3f3f46;
+  background: #17171a;
+  color: #fafafa;
+}
+
+.top-nav button.active,
+.category-tabs button.active,
+.dish-item.selected,
+aside button.selected {
+  background: #2563eb;
+  border-color: #1d4ed8;
+}
+
+.app-shell,
+.admin-shell {
+  width: min(1100px, 100%);
   margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  padding: 1rem;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.app-shell header h1,
+.admin-header h1 {
+  margin: 0;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+.category-tabs {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+}
+
+.category-tabs button {
+  padding: 0 1rem;
+  white-space: nowrap;
+}
+
+.menu-grid {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+  grid-template-columns: 1fr;
+}
+
+.dish-list {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.dish-item {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.75rem;
+}
+
+.dish-detail {
+  background: #111115;
+  border: 1px solid #2f2f35;
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+}
+
+.viewer-wrap {
+  height: 340px;
+  border-radius: 0.7rem;
+  overflow: hidden;
+  background: radial-gradient(circle, #202024 0%, #101014 100%);
+}
+
+.viewer-fallback {
+  display: grid;
+  place-items: center;
+  height: 100%;
+}
+
+.viewer-fallback img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.price {
+  font-size: 1.2rem;
+  color: #93c5fd;
+  font-weight: 700;
+}
+
+.login-shell {
+  min-height: calc(100vh - 58px);
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+
+.login-card {
+  width: min(420px, 100%);
+  border: 1px solid #303037;
+  border-radius: 0.8rem;
+  background: #111115;
+  padding: 1rem;
+  display: grid;
+  gap: 0.65rem;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  border-radius: 0.5rem;
+  border: 1px solid #3f3f46;
+  background: #09090b;
+  color: #f4f4f5;
+  padding: 0.6rem 0.7rem;
+}
+
+textarea {
+  min-height: 90px;
+}
+
+.admin-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.admin-content {
+  margin-top: 1rem;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+
+.admin-content aside,
+.admin-content article {
+  background: #111115;
+  border: 1px solid #2f2f35;
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+}
+
+.admin-content aside {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.admin-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.editor-grid {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.upload-row,
+.settings-grid {
+  display: grid;
+  gap: 0.65rem;
+  grid-template-columns: 1fr;
+}
+
+.check-inline {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.check-inline input {
+  width: auto;
+}
+
+@media (min-width: 900px) {
+  .menu-grid {
+    grid-template-columns: 320px 1fr;
   }
-  to {
-    transform: rotate(360deg);
+
+  .admin-content {
+    grid-template-columns: 300px 1fr;
   }
-}
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+  .upload-row,
+  .settings-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-}
 
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
+  .settings-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
