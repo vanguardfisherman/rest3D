@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, useGLTF } from "@react-three/drei";
 import "./App.css";
@@ -14,45 +14,68 @@ const ADMIN_CREDENTIALS = {
 };
 
 const DEFAULT_CATEGORIES = [
-  { id: "c1", name: "Entradas", order: 1, isActive: true },
-  { id: "c2", name: "Fuertes", order: 2, isActive: true },
-  { id: "c3", name: "Postres", order: 3, isActive: true },
-  { id: "c4", name: "Bebidas", order: 4, isActive: true },
+  {
+    id: "c1",
+    name: "Hamburguesas",
+    order: 1,
+    isActive: true,
+    accent: "#f4b740",
+    sticker: "🍔",
+    subtitle: "Jugosas, clásicas y con carácter.",
+  },
+  {
+    id: "c2",
+    name: "Pizzas",
+    order: 2,
+    isActive: true,
+    accent: "#f4b740",
+    sticker: "🍕",
+    subtitle: "Masa artesanal y sabor al horno.",
+  },
+  {
+    id: "c3",
+    name: "Sandwiches",
+    order: 3,
+    isActive: true,
+    accent: "#f4b740",
+    sticker: "🥪",
+    subtitle: "Combinaciones ligeras y deliciosas.",
+  },
 ];
 
 const DEFAULT_DISHES = [
   {
     id: "d1",
-    name: "Mini Burger Ahumada",
-    description: "Pan artesanal, carne madurada y salsa especial de la casa.",
-    priceCOP: 32000,
-    categoryId: "c2",
-    tags: ["destacado"],
+    name: "Classic Burger",
+    description: "Pan brioche, carne jugosa, queso y vegetales frescos.",
+    priceCOP: 700,
+    categoryId: "c1",
+    tags: ["clásico"],
     imageUrl: "",
     model3dUrl: "/models/Buger.glb",
-    modelSettings: { scale: 1.2, rotationY: 0, positionY: -0.4 },
+    modelSettings: { scale: 1.2, rotationY: 0.1, positionY: -0.45 },
     isPublished: true,
     order: 1,
   },
   {
     id: "d2",
-    name: "Ceviche Tropical",
-    description: "Pesca fresca, mango y leche de tigre cítrica.",
-    priceCOP: 28000,
+    name: "Veggie Burger",
+    description: "Versión vegetal con mix de hojas, tomate y salsa artesanal.",
+    priceCOP: 750,
     categoryId: "c1",
-    tags: ["fresco"],
+    tags: ["veggie"],
     imageUrl: "",
     model3dUrl: "/models/Buger.glb",
-    modelSettings: { scale: 1.15, rotationY: 0.3, positionY: -0.45 },
+    modelSettings: { scale: 1.15, rotationY: 0.2, positionY: -0.45 },
     isPublished: true,
     order: 2,
   },
   {
     id: "d3",
-    name: "Lomo al Vino",
-    description: "Cocción lenta con reducción de vino tinto y papas crocantes.",
-    priceCOP: 46000,
-    categoryId: "c2",
+    name: "Special Burger",
+    description: "Doble carne, cebolla crocante y salsa especial de la casa.",
+    priceCOP: 800,
+    categoryId: "c1",
     tags: ["premium"],
     imageUrl: "",
     model3dUrl: "/models/Buger.glb",
@@ -62,11 +85,11 @@ const DEFAULT_DISHES = [
   },
   {
     id: "d4",
-    name: "Cheesecake de Maracuyá",
-    description: "Cremoso, ligero y con cobertura de fruta natural.",
-    priceCOP: 19000,
-    categoryId: "c3",
-    tags: ["dulce"],
+    name: "Classic Pizza",
+    description: "Pizza tradicional con mozzarella y salsa de tomate al horno.",
+    priceCOP: 900,
+    categoryId: "c2",
+    tags: ["horno"],
     imageUrl: "",
     model3dUrl: "/models/Buger.glb",
     modelSettings: { scale: 1.05, rotationY: 0.1, positionY: -0.5 },
@@ -75,16 +98,68 @@ const DEFAULT_DISHES = [
   },
   {
     id: "d5",
-    name: "Limonada de Coco",
-    description: "Bebida cremosa, refrescante y perfecta para clima cálido.",
-    priceCOP: 14000,
-    categoryId: "c4",
-    tags: ["refrescante"],
+    name: "Veggie Pizza",
+    description: "Base delgada con vegetales asados y toque de albahaca.",
+    priceCOP: 900,
+    categoryId: "c2",
+    tags: ["veggie"],
     imageUrl: "",
     model3dUrl: "/models/Buger.glb",
     modelSettings: { scale: 1.25, rotationY: -0.1, positionY: -0.5 },
     isPublished: true,
     order: 5,
+  },
+  {
+    id: "d6",
+    name: "Special Pizza",
+    description: "Combinación de sabores intensos con topping especial.",
+    priceCOP: 950,
+    categoryId: "c2",
+    tags: ["especial"],
+    imageUrl: "",
+    model3dUrl: "/models/Buger.glb",
+    modelSettings: { scale: 1.15, rotationY: 0.22, positionY: -0.5 },
+    isPublished: true,
+    order: 6,
+  },
+  {
+    id: "d7",
+    name: "Classic Sandwich",
+    description: "Pan suave, jamón artesanal, queso y vegetales frescos.",
+    priceCOP: 650,
+    categoryId: "c3",
+    tags: ["clásico"],
+    imageUrl: "",
+    model3dUrl: "/models/Buger.glb",
+    modelSettings: { scale: 1.05, rotationY: -0.1, positionY: -0.55 },
+    isPublished: true,
+    order: 7,
+  },
+  {
+    id: "d8",
+    name: "Veggie Sandwich",
+    description: "Opción vegetal con vegetales grillados y aderezo ligero.",
+    priceCOP: 680,
+    categoryId: "c3",
+    tags: ["veggie"],
+    imageUrl: "",
+    model3dUrl: "/models/Buger.glb",
+    modelSettings: { scale: 1.1, rotationY: 0.16, positionY: -0.55 },
+    isPublished: true,
+    order: 8,
+  },
+  {
+    id: "d9",
+    name: "Special Sandwich",
+    description: "Triple capa con ingredientes premium y salsa especial.",
+    priceCOP: 700,
+    categoryId: "c3",
+    tags: ["especial"],
+    imageUrl: "",
+    model3dUrl: "/models/Buger.glb",
+    modelSettings: { scale: 1.2, rotationY: 0.05, positionY: -0.55 },
+    isPublished: true,
+    order: 9,
   },
 ];
 
@@ -138,91 +213,122 @@ function DishViewer({ dish }) {
 
   return (
     <Canvas camera={{ position: [0, 1, 3.2], fov: 45 }}>
-      <ambientLight intensity={1} />
-      <directionalLight intensity={1.2} position={[3, 4, 5]} />
+      <ambientLight intensity={1.05} />
+      <directionalLight intensity={1.3} position={[3, 4, 5]} />
       <DishModel dish={dish} />
-      <OrbitControls enablePan={false} />
+      <OrbitControls enablePan={false} minDistance={2.2} maxDistance={4.6} />
     </Canvas>
   );
 }
 
-function PublicMenu({ data }) {
-  const activeCategories = useMemo(
-    () => data.categories.filter((category) => category.isActive).sort((a, b) => a.order - b.order),
-    [data.categories],
-  );
+function DishModal({ dish, onClose }) {
+  useEffect(() => {
+    if (!dish) return undefined;
 
-  const [selectedCategoryId, setSelectedCategoryId] = useState(activeCategories[0]?.id || "");
-  const effectiveCategoryId = activeCategories.some((category) => category.id === selectedCategoryId)
-    ? selectedCategoryId
-    : activeCategories[0]?.id || "";
+    const handleEsc = (event) => {
+      if (event.key === "Escape") onClose();
+    };
 
-  const visibleDishes = useMemo(
-    () =>
-      data.dishes
-        .filter((dish) => dish.isPublished && dish.categoryId === effectiveCategoryId)
-        .sort((a, b) => a.order - b.order),
-    [data.dishes, effectiveCategoryId],
-  );
+    document.body.classList.add("modal-open");
+    window.addEventListener("keydown", handleEsc);
 
-  const [selectedDishId, setSelectedDishId] = useState(visibleDishes[0]?.id || "");
-  const effectiveDishId = visibleDishes.some((dish) => dish.id === selectedDishId)
-    ? selectedDishId
-    : visibleDishes[0]?.id || "";
+    return () => {
+      document.body.classList.remove("modal-open");
+      window.removeEventListener("keydown", handleEsc);
+    };
+  }, [dish, onClose]);
 
-  const selectedDish = visibleDishes.find((dish) => dish.id === effectiveDishId);
+  if (!dish) return null;
 
   return (
-    <main className="app-shell">
-      <header>
-        <h1>Menú 3D Interactivo</h1>
-        <p>Explora nuestros platos en 3D · Español · COP</p>
+    <div className="dish-modal" role="dialog" aria-modal="true" aria-label={`Vista 3D de ${dish.name}`}>
+      <button className="dish-modal-backdrop" type="button" aria-label="Cerrar" onClick={onClose} />
+      <article className="dish-modal-card">
+        <button type="button" className="close-modal" onClick={onClose}>
+          ✕
+        </button>
+
+        <p className="modal-kicker">Vista inmersiva 3D</p>
+        <h3>{dish.name}</h3>
+        <p>{dish.description}</p>
+        <div className="dish-tags">
+          {(dish.tags || []).map((tag) => (
+            <span key={tag}>{tag}</span>
+          ))}
+        </div>
+        <p className="price">{formatCOP(dish.priceCOP)}</p>
+
+        <div className="viewer-wrap">
+          <DishViewer dish={dish} />
+        </div>
+        <small>Tip: arrastra para rotar · pellizca o usa rueda para zoom</small>
+      </article>
+    </div>
+  );
+}
+
+function PublicMenu({ data }) {
+  const [selectedDish, setSelectedDish] = useState(null);
+
+  const activeCategories = useMemo(() => {
+    const categories = data.categories
+      .filter((category) => category.isActive)
+      .sort((a, b) => a.order - b.order);
+
+    return categories.map((category, index) => {
+      const dishes = data.dishes
+        .filter((dish) => dish.isPublished && dish.categoryId === category.id)
+        .sort((a, b) => a.order - b.order);
+
+      return {
+        ...category,
+        dishes,
+        imageSide: index % 2 === 0 ? "right" : "left",
+      };
+    });
+  }, [data.categories, data.dishes]);
+
+  return (
+    <main className="menu-poster app-shell">
+      <header className="poster-header">
+        <p className="poster-logo">Tu logo aquí</p>
+        <h1>
+          CARTA <span>Menú</span>
+        </h1>
+        <p className="poster-subtitle">Explora cada plato en 3D y descubre su estilo antes de pedir.</p>
       </header>
 
-      <div className="category-tabs">
+      <section className="poster-list">
         {activeCategories.map((category) => (
-          <button
-            key={category.id}
-            type="button"
-            className={category.id === effectiveCategoryId ? "active" : ""}
-            onClick={() => setSelectedCategoryId(category.id)}
-          >
-            {category.name}
-          </button>
-        ))}
-      </div>
+          <article className={`category-band ${category.imageSide}`} key={category.id}>
+            <h2 style={{ color: category.accent || "#f4b740" }}>{category.name}</h2>
+            <p className="category-subtitle">{category.subtitle || "Nuestros favoritos de la casa."}</p>
 
-      <section className="menu-grid">
-        <article className="dish-list">
-          {visibleDishes.map((dish) => (
-            <button
-              key={dish.id}
-              type="button"
-              className={`dish-item ${dish.id === effectiveDishId ? "selected" : ""}`}
-              onClick={() => setSelectedDishId(dish.id)}
-            >
-              <strong>{dish.name}</strong>
-              <span>{formatCOP(dish.priceCOP)}</span>
-            </button>
-          ))}
-          {visibleDishes.length === 0 && <p>No hay platos publicados en esta categoría.</p>}
-        </article>
-
-        <article className="dish-detail">
-          {selectedDish ? (
-            <>
-              <div className="viewer-wrap">
-                <DishViewer dish={selectedDish} />
+            <div className="category-content">
+              <div className="dish-list">
+                {category.dishes.map((dish) => (
+                  <button key={dish.id} type="button" className="dish-item" onClick={() => setSelectedDish(dish)}>
+                    <div>
+                      <strong>{dish.name}</strong>
+                      <p>{dish.description}</p>
+                    </div>
+                    <div className="dish-price-wrap">
+                      <span>{formatCOP(dish.priceCOP)}</span>
+                      <small>Ver 3D</small>
+                    </div>
+                  </button>
+                ))}
+                {category.dishes.length === 0 && <p>No hay platos publicados en esta categoría.</p>}
               </div>
-              <h2>{selectedDish.name}</h2>
-              <p>{selectedDish.description}</p>
-              <p className="price">{formatCOP(selectedDish.priceCOP)}</p>
-            </>
-          ) : (
-            <p>Selecciona un plato para visualizarlo.</p>
-          )}
-        </article>
+              <div className="category-image" aria-hidden="true">
+                <div>{category.sticker || "🍽️"}</div>
+              </div>
+            </div>
+          </article>
+        ))}
       </section>
+
+      <DishModal dish={selectedDish} onClose={() => setSelectedDish(null)} />
     </main>
   );
 }
@@ -425,7 +531,11 @@ function AdminPanel({ data, onSave }) {
               <div className="upload-row">
                 <label>
                   Modelo 3D (.glb/.gltf)
-                  <input type="file" accept=".glb,.gltf,model/gltf-binary" onChange={(event) => handleFileUpload(event, "model")} />
+                  <input
+                    type="file"
+                    accept=".glb,.gltf,model/gltf-binary"
+                    onChange={(event) => handleFileUpload(event, "model")}
+                  />
                 </label>
 
                 <label>
