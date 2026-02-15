@@ -14,33 +14,9 @@ const ADMIN_CREDENTIALS = {
 };
 
 const DEFAULT_CATEGORIES = [
-  {
-    id: "c1",
-    name: "Hamburguesas",
-    order: 1,
-    isActive: true,
-    accent: "#f4b740",
-    sticker: "🍔",
-    subtitle: "Jugosas, clásicas y con carácter.",
-  },
-  {
-    id: "c2",
-    name: "Pizzas",
-    order: 2,
-    isActive: true,
-    accent: "#f4b740",
-    sticker: "🍕",
-    subtitle: "Masa artesanal y sabor al horno.",
-  },
-  {
-    id: "c3",
-    name: "Sandwiches",
-    order: 3,
-    isActive: true,
-    accent: "#f4b740",
-    sticker: "🥪",
-    subtitle: "Combinaciones ligeras y deliciosas.",
-  },
+  { id: "c1", name: "Hamburguesas", order: 1, isActive: true, accent: "#f4b740", sticker: "🍔" },
+  { id: "c2", name: "Pizzas", order: 2, isActive: true, accent: "#f4b740", sticker: "🍕" },
+  { id: "c3", name: "Sandwiches", order: 3, isActive: true, accent: "#f4b740", sticker: "🥪" },
 ];
 
 const DEFAULT_DISHES = [
@@ -247,21 +223,12 @@ function DishModal({ dish, onClose }) {
         <button type="button" className="close-modal" onClick={onClose}>
           ✕
         </button>
-
-        <p className="modal-kicker">Vista inmersiva 3D</p>
         <h3>{dish.name}</h3>
         <p>{dish.description}</p>
-        <div className="dish-tags">
-          {(dish.tags || []).map((tag) => (
-            <span key={tag}>{tag}</span>
-          ))}
-        </div>
         <p className="price">{formatCOP(dish.priceCOP)}</p>
-
         <div className="viewer-wrap">
           <DishViewer dish={dish} />
         </div>
-        <small>Tip: arrastra para rotar · pellizca o usa rueda para zoom</small>
       </article>
     </div>
   );
@@ -295,27 +262,19 @@ function PublicMenu({ data }) {
         <h1>
           CARTA <span>Menú</span>
         </h1>
-        <p className="poster-subtitle">Explora cada plato en 3D y descubre su estilo antes de pedir.</p>
+        <p>Selecciona un alimento para abrir su visualización 3D</p>
       </header>
 
       <section className="poster-list">
         {activeCategories.map((category) => (
           <article className={`category-band ${category.imageSide}`} key={category.id}>
             <h2 style={{ color: category.accent || "#f4b740" }}>{category.name}</h2>
-            <p className="category-subtitle">{category.subtitle || "Nuestros favoritos de la casa."}</p>
-
             <div className="category-content">
               <div className="dish-list">
                 {category.dishes.map((dish) => (
                   <button key={dish.id} type="button" className="dish-item" onClick={() => setSelectedDish(dish)}>
-                    <div>
-                      <strong>{dish.name}</strong>
-                      <p>{dish.description}</p>
-                    </div>
-                    <div className="dish-price-wrap">
-                      <span>{formatCOP(dish.priceCOP)}</span>
-                      <small>Ver 3D</small>
-                    </div>
+                    <strong>{dish.name}</strong>
+                    <span>{formatCOP(dish.priceCOP)}</span>
                   </button>
                 ))}
                 {category.dishes.length === 0 && <p>No hay platos publicados en esta categoría.</p>}
