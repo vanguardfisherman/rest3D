@@ -189,10 +189,10 @@ function DishViewer({ dish }) {
 
   return (
     <Canvas camera={{ position: [0, 1, 3.2], fov: 45 }}>
-      <ambientLight intensity={1} />
-      <directionalLight intensity={1.2} position={[3, 4, 5]} />
+      <ambientLight intensity={1.05} />
+      <directionalLight intensity={1.3} position={[3, 4, 5]} />
       <DishModel dish={dish} />
-      <OrbitControls enablePan={false} />
+      <OrbitControls enablePan={false} minDistance={2.2} maxDistance={4.6} />
     </Canvas>
   );
 }
@@ -490,7 +490,11 @@ function AdminPanel({ data, onSave }) {
               <div className="upload-row">
                 <label>
                   Modelo 3D (.glb/.gltf)
-                  <input type="file" accept=".glb,.gltf,model/gltf-binary" onChange={(event) => handleFileUpload(event, "model")} />
+                  <input
+                    type="file"
+                    accept=".glb,.gltf,model/gltf-binary"
+                    onChange={(event) => handleFileUpload(event, "model")}
+                  />
                 </label>
 
                 <label>

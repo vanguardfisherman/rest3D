@@ -1,7 +1,7 @@
 :root {
-  font-family: Inter, system-ui, -apple-system, sans-serif;
-  color: #f3f4f6;
-  background: #09090b;
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  color: #f8f7f4;
+  background: #0a0a0b;
 }
 
 * {
@@ -10,7 +10,11 @@
 
 body {
   margin: 0;
-  background: #09090b;
+  background: #0a0a0b;
+}
+
+body.modal-open {
+  overflow: hidden;
 }
 
 body.modal-open {
@@ -24,8 +28,9 @@ body.modal-open {
   display: flex;
   gap: 0.6rem;
   padding: 0.75rem;
-  background: rgba(12, 12, 14, 0.95);
-  border-bottom: 1px solid #27272a;
+  background: rgba(10, 10, 12, 0.9);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid #2f2f34;
 }
 
 .top-nav button,
@@ -35,21 +40,21 @@ aside button,
 .login-card button,
 .admin-header button {
   min-height: 44px;
-  border-radius: 0.65rem;
+  border-radius: 0.7rem;
   border: 1px solid #3f3f46;
-  background: #17171a;
+  background: #19191d;
   color: #fafafa;
 }
 
 .top-nav button.active,
 aside button.selected {
-  background: #2563eb;
-  border-color: #1d4ed8;
+  background: #2a4f96;
+  border-color: #3f78da;
 }
 
 .app-shell,
 .admin-shell {
-  width: min(1100px, 100%);
+  width: min(1140px, 100%);
   margin: 0 auto;
   padding: 1rem;
 }
@@ -147,7 +152,7 @@ aside button.selected {
   height: 340px;
   border-radius: 0.8rem;
   overflow: hidden;
-  background: radial-gradient(circle, #202024 0%, #101014 100%);
+  background: radial-gradient(circle, #2b2b2f 0%, #101014 100%);
 }
 
 .viewer-fallback {
@@ -163,8 +168,9 @@ aside button.selected {
 }
 
 .price {
-  font-size: 1.2rem;
-  color: #93c5fd;
+  margin: 0;
+  font-size: 1.3rem;
+  color: #f4b740;
   font-weight: 700;
 }
 
